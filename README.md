@@ -11,3 +11,8 @@ conda config --set show_channel_urls yes
 ```
 
 It's still work.
+
+intsall opencv
+```
+conda install --channel https://conda.anaconda.org/menpo opencv3
+```
