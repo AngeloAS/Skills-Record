@@ -16,3 +16,5 @@ intsall opencv
 ```
 conda install --channel https://conda.anaconda.org/menpo opencv3
 ```
+
+最近是真滴烦
