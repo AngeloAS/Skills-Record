@@ -10,8 +10,6 @@ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/m
 conda config --set show_channel_urls yes
 ```
 
-It's still work.
-
 intsall opencv
 ```
 conda install -chttps://conda.binstar.org/menpo opencv
