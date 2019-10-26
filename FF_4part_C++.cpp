@@ -15,7 +15,6 @@
 using namespace std;
 using namespace cv;
 #pragma comment(lib,"./NMS_GPU_9.0.lib")
-
 void _nms(int* keep_out, int* num_out, const float* boxes_host, int boxes_num,
 	int boxes_dim, float nms_overlap_thresh, int device_id);
 
@@ -75,6 +74,7 @@ int main(){
 	module->to(device);
 
 	//cout << "finished load model" << endl;
+	int x_in = 1312, y_in = 960;
 
 
 	/*read images*/
@@ -97,14 +97,14 @@ int main(){
 		int keep[300];
 		int num_out = 0;
 		int num = 0;
-		float box_in[500][5]; // x1,y1,x2,y2,score,kind
-		float result[200][5];
+		float box_in[600][5]; // x1,y1,x2,y2,score,kind
+		float result[300][5];
 		memset(keep, 0, sizeof(keep));
 		memset(box_in, 0, sizeof(box_in));
 		memset(result, 0, sizeof(result));
 		vector<Bbox> bsort;
-		ratio[0] = (double)(height_ori*wratio) / double(1312);
-		ratio[1] = (double)(width_ori*hratio) / double(960);
+		ratio[0] = (double)(height_ori*hratio) / double(x_in);
+		ratio[1] = (double)(width_ori*wratio) / double(y_in);
 		cv::Mat img1 = img_(Range(0, (int)(wratio * width_ori)), Range(0, (int)(hratio * height_ori)));
 		cv::Mat img2 = img_(Range(0, (int)(wratio * width_ori)), Range(height_ori - (int)(hratio* height_ori), height_ori));
 		cv::Mat img3 = img_(Range(width_ori - (int)(wratio*width_ori), width_ori), Range(0, (int)(hratio * height_ori)));
@@ -116,7 +116,7 @@ int main(){
 			torch::Tensor box;
 			torch::Tensor score;
 			torch::Tensor kind;
-			cv::Mat img(960, 1312, CV_8UC3);
+			cv::Mat img(y_in, x_in, CV_8UC3);
 			if (p == 0)
 			{
 				cv::resize(img1, img, img.size(), 0, 0, cv::INTER_LINEAR);  // must be bilinear interpolation,it fits our works more
@@ -188,7 +188,6 @@ int main(){
 			}
 			else if (p == 2)
 			{
-				cv::Mat img(960, 1312, CV_8UC3);
 				cv::resize(img3, img, img.size(), 0, 0, cv::INTER_LINEAR);  // must be bilinear interpolation,it fits our works more
 				auto input_ = torch::tensor(at::ArrayRef<uint8_t>(img.data, img.rows * img.cols * 3)).view({ img.rows, img.cols, 3 });
 				/* data -> model */
@@ -223,7 +222,6 @@ int main(){
 			}
 			else if (p == 3)
 			{
-				cv::Mat img(960, 1312, CV_8UC3);
 				cv::resize(img4, img, img.size(), 0, 0, cv::INTER_LINEAR);  // must be bilinear interpolation,it fits our works more
 				auto input_ = torch::tensor(at::ArrayRef<uint8_t>(img.data, img.rows * img.cols * 3)).view({ img.rows, img.cols, 3 });
 				/* data -> model */
