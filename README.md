@@ -27,4 +27,9 @@ pip install accelerate ways
 pip install name_of_file -i https://pypi.douban.com/simple
 ```
 
+accelerate arxiv speed
+'''
+http://xxx.itp.ac.cn/pdf/1911.08651.pdf
+'''
+
 
