@@ -20,6 +20,11 @@ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple opencv-python
 pip install opencv-contrib-python -i https://pypi.douban.com/simple
 
 ```
+final choice: download *.tar.bz file and use follow order
+```
+conda install --use-local *.tar.bz
+```
+
 
 pip install accelerate ways
 
